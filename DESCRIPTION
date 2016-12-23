@@ -1,0 +1,31 @@
+Package: assimilr
+Type: Package
+Title: Local Ensemble Kalman Particle Filters
+Version: 1.2
+Date: 2016-12-23
+Authors@R: person("Sylvain","Robert", email="robert@stat.math.ethz.ch", role=
+    c("aut", "cre"))
+Description: Implementation of the EnKPF, block-LEnKPF and naive-LEnKPF.
+    The code is not meant to be efficient but a rather literal implementation of
+    the algorithms. An example of one step analysis is done with a simple Gaussian
+    random field. Cycled experiments with the modified shallow water equation model of
+    Wursch and Craig (2014) designed to mimick cumulus convection are conducted. The
+    later is implemented in fortran90 for better performance.
+Depends:
+    clue,
+    dplyr,
+    tidyr,
+    ggplot2,
+    fields,
+    Matrix,
+    foreach
+License: GPL-3
+LazyData: TRUE
+Imports:
+    clue,
+    ggplot2,
+    fields,
+    foreach,
+    dplyr,
+    tidyr
+RoxygenNote: 5.0.1
