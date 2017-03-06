@@ -18,6 +18,7 @@
 enkf_step <- function (y, xb, gam, P, H, R, y.resx, kloc=FALSE, ...) {
   K <- ncol(xb)
 
+
   Kal <- if (kloc) kloc_gain(gam*P, H, R, ...) else kalman.gain(gam*P, H, R)
 
   ## special case if gam == 1, pure EnKF

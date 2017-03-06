@@ -60,10 +60,11 @@ EnKPF        <- function(xb, y, H, R,
     xa <- nu + eps
     ess <- 1
     gam <- 1
+    index <- 1:ncol(xb)
   } else{
     ## resampling
-    index <- bal.sample(w, R=K, unif=unif)$index
-    index <- leftmatch(1:K, index)
+    index <- bal.sample(w, R=ncol(xb), unif=unif)$index
+    index <- leftmatch(1:ncol(xb), index)
 
     ## update:
     matq <- chol(H %*% Q %*% t(H) + R/(1-gam))
@@ -82,7 +83,6 @@ EnKPF        <- function(xb, y, H, R,
 
     xa <- mu[,index] + xinc
   }
-
-  return(list(xa= xa, gam=gam, ess=ess))
+  return(list(xa= xa, gam=gam, ess=ess, index=index))
 }
 

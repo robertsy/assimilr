@@ -55,7 +55,7 @@ naive_LEnKPF <- function(xb, y, H, R, l,
 
   }
 
-  return(list(xa=xa, gam=gam, ess=ess) )
+  return(list(xa=xa, gam=gam, ess=ess, index=mod.local$index) )
 
 }
 

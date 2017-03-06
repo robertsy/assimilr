@@ -80,7 +80,8 @@ pit_hist <- function(hx,y,fig=TRUE){
 # SWEQ specifics ----------------------------------------------------------
 sweq_eval <- function(sweq_run, model_run){
   ## transform to nice df:
-  ens_df <- sweq_run_as_df(model_run, duration, freq, sweq_run=sweq_run)
+  # browser()
+  ens_df <- sweq_run_as_df(model_run, sweq_run$duration, sweq_run$freq, sweq_run=sweq_run)
 
   ## compute the mean ensemble at each location/time/etc:
   mean_df <- ens_df %>%
@@ -129,7 +130,7 @@ pit_sweq <- function(sweq_run, model_run, fig=FALSE, train=sweq_run$params['thre
                      times=sweq_run$freq*seq(0,sweq_run$duration/sweq_run$freq, by=3)
 ){
   ## transform to nice df:
-  ens_df <- sweq_run_as_df(model_run, duration, freq, sweq_run=sweq_run)
+  ens_df <- sweq_run_as_df(model_run, sweq_run$duration, sweq_run$freq,duration, sweq_run$duration, sweq_run$freq,freq, sweq_run=sweq_run)
 
   ## limit to subset of locations and times:
   ens_df <- ens_df %>% filter(x %in% loc)
