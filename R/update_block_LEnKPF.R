@@ -161,8 +161,10 @@ one_block_update        <- function(xa, y, P, H, R,
       KQx %*% eps2
 
     ## resampling
-    index <- bal.sample(w, R=K, unif=unif)$index
-    index <- leftmatch(1:K, index) # permute indices to reduce discontinuities
+    # index <- bal.sample(w, R=K, unif=unif)$index
+    # index <- leftmatch(1:K, index) # permute indices to reduce discontinuities
+    index <- bal_sample_ordered(w, unif=unif)$index
+    
 
     ## update x:
     x.update <- mux[,index] + xinc

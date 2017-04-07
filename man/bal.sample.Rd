@@ -17,8 +17,8 @@ bal.sample(w, R = length(w), unif = runif(1))
 list(N, index)
 }
 \description{
-Multiplicities N_1, ..., N_n, i.e. element j is sampled N_j times. 
-index = numbers of sampled elements
+Multiplicities N_1, ..., N_n, i.e. element j is sampled N_j times
+index = numbers of sampled elements.
 
 Author: Hans-Rudolf Kuensch, Date: 21 Apr 2010.
 Modified by Sylvain Robert (added unif as argument and some names)

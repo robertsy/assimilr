@@ -67,8 +67,9 @@ EnKPF        <- function(xb, y, H, R,
     index <- 1:ncol(xb)
   } else{
     ## resampling
-    index <- bal.sample(w, R=ncol(xb), unif=unif)$index
-    index <- leftmatch(1:ncol(xb), index)
+    # index <- bal.sample(w, R=ncol(xb), unif=unif)$index
+    # index <- leftmatch(1:ncol(xb), index)
+    index <- bal_sample_ordered(w, unif=unif)$index
 
     ## update:
     matq <- chol(H %*% Q %*% t(H) + R/(1-gam))

@@ -103,11 +103,43 @@ msqrt <- function(A){
   return(V %*% diag(sqrt(e$values)) %*% t(V))
 }
 
+
+
+#' Balanced sampling with reordering
+#' 
+#' @description 
+#' Same as bal.sample but permute indices to reduce
+#' the number of discontinuities in local resampling.
+#' 
+#' Draw a balanced sample of size n from {1,...,n} with
+#' probabilities w such that agreement with 1:n is maximal
+#'   
+#' Multiplicities N_1, ..., N_n, i.e. element j is sampled N_j times. 
+#' index = numbers of sampled elements
+#' 
+#' Author: Hans-Rudolf Kuensch
+#'
+#' @param w = probabilities (must sum to one !)
+#' @param unif = uniform (pass if deterministic behaviour wished)
+#' @return list(N, index)
+bal_sample_ordered <- function(w, unif=runif(1)){
+  n <- length(w)
+  M <- floor(n*cumsum(w) + unif)
+  N <- M - c(0,M[-n])
+  remove <- N==0
+  index <- 1:n
+  N.1 <- pmax(0,N-1)
+  index[remove] <- rep(1:n,N.1)
+  list(N=N,index=index)
+}
+
+
+
 #' Balanced sampling
 #' 
 #' @description 
-#' Multiplicities N_1, ..., N_n, i.e. element j is sampled N_j times. 
-#' index = numbers of sampled elements
+#' Multiplicities N_1, ..., N_n, i.e. element j is sampled N_j times
+#' index = numbers of sampled elements.
 #' 
 #' Author: Hans-Rudolf Kuensch, Date: 21 Apr 2010.
 #' Modified by Sylvain Robert (added unif as argument and some names)
@@ -123,10 +155,6 @@ bal.sample <- function(w, R=length(w), unif=runif(1)){
   index <- rep(1:n,N)
   list(N=N,index=index)
 }
-
-
-
-
 
 
 #' Select gamma adaptively
