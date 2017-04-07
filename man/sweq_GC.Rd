@@ -2,8 +2,7 @@
 % Please edit documentation in R/utils_geom.R
 \name{sweq_GC}
 \alias{sweq_GC}
-\title{Compute the GC taper on the sweq geometry for h,u and r, with support half-length c
-Cross correlations between fields can be defined (and should be non-zero)}
+\title{GC taper on SWEQ}
 \usage{
 sweq_GC(ndim, c, cross.vec = rep(0.9, 3))
 }

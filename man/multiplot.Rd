@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_plotting.R
 \name{multiplot}
 \alias{multiplot}
-\title{convenient function to combine multiple ggplot plots on one page}
+\title{Combine multiple ggplots}
 \usage{
 multiplot(..., plotlist = NULL, cols = 1, layout = NULL)
 }

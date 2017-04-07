@@ -1,9 +1,13 @@
-## plotting functions
+## additional plotting functions
 
 
 
 # covariance matrices -----------------------------------------------------
 
+
+#' Plot covariance
+#' 
+#' @description 
 #' plot a squared matrix as a heatmap
 #' take care of putting things in the right direction and add a legend
 #' @param A the matrix to plot
@@ -25,7 +29,8 @@ image_mat <- function(A,xlab='columns', ylab='rows',plotlegend=TRUE,...){
 }
 
 
-
+#' Combine multiple ggplots
+#' @description 
 #' convenient function to combine multiple ggplot plots on one page
 #' @param ... can be any number of plots as returned by ggplot
 #' @param plotlist is alternatively a list of plots

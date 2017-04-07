@@ -2,8 +2,7 @@
 % Please edit documentation in R/utils_geom.R
 \name{sweq_neighbours}
 \alias{sweq_neighbours}
-\title{Find the neighbours around i, l in each direction
-It takes into account the ring structure of the space and the fact that the states has three components (h,u and r)}
+\title{SWEQ neighbours}
 \usage{
 sweq_neighbours(i, l, ndim)
 }

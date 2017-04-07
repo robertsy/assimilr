@@ -2,9 +2,7 @@
 % Please edit documentation in R/utils_geom.R
 \name{ring_neighbours}
 \alias{ring_neighbours}
-\title{Neighborhood on a ring
-get the l neighbours on each side of
-i on a ring of size ndim}
+\title{Neighborhood on a ring}
 \usage{
 ring_neighbours(i, l, ndim)
 }
@@ -20,7 +18,6 @@ list(x.ind, center, local.center)
 local.center are the indices of the centers in the local space (x.local) to apply the update
 }
 \description{
-Neighborhood on a ring
 get the l neighbours on each side of
 i on a ring of size ndim
 }

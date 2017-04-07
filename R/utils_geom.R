@@ -6,6 +6,9 @@
 
 # ring geometry tools ---------------------------------------------------
 
+
+#' Ring modulo
+#' @description 
 #' Special modulo for indices on ring ( a mod b)
 #' with special treatment for a==0
 #' @param a,b a mod b
@@ -17,6 +20,8 @@ ring_mod <- function(a,b){
 }
 
 
+#' Distance on ring
+#' @description 
 #' Compute minimal distances (discrete) on a ring
 #'
 #' @param i from
@@ -30,7 +35,7 @@ ring_dist <- function(i, j, N){
 }
 
 
-#' Compute all pairwise distances on a rings
+#' Pairwise distances on a rings
 #'
 #' @param N the size of the ring
 #' @return the matrix of pairwise distances on a ring of size N.
@@ -48,6 +53,8 @@ ring_alldist <- function(N){
 
 
 #' Neighborhood on a ring
+#' 
+#' @description 
 #' get the l neighbours on each side of
 #' i on a ring of size ndim
 #'
@@ -65,8 +72,11 @@ ring_neighbours <- function(i, l, ndim){
 
 
 
-#' Partition the observations for the block-LEnKPF
-#' taking into account the ring geometry
+#' Ring partition for the block-LEnKPF
+#' 
+#' @description 
+#' Partition the observations in blocks for assimilation with block-LEnKPF.
+#' Takes into account the ring geometry.
 #' We assume that R is diagonal and don't take it into account
 #'
 #' @param H the observation operator
@@ -139,6 +149,9 @@ ring_partition <- function(H, taper, block.size){
 
 # sweq geometry tools -----------------------------------------------------
 
+#' SWEQ neighbours
+#' 
+#' @description 
 #' Find the neighbours around i, l in each direction
 #' It takes into account the ring structure of the space and the fact that the states has three components (h,u and r)
 #'
@@ -159,7 +172,10 @@ sweq_neighbours <- function(i, l, ndim){
 
 
 
-#' Split a state vector into the h,u and r components
+#' SWEQ stack state
+#' 
+#' @description 
+#' Stack a state vector from the h,u and r components.
 #' Basically the oposite of sweq_split.
 #'
 #' @param h,u, r
@@ -177,8 +193,10 @@ sweq_stack <- function(h, u, r){
 }
 
 
-
-#' Split a state vector into the h,u and r components
+#' SWEQ split state
+#' 
+#' @description 
+#' Split a state vector into the h,u and r components.
 #' Basically the opposite of sweq_stack
 #'
 #' @param state Vector (3ndim) or matrix (3ndim x N) if ensemble
@@ -211,7 +229,7 @@ sweq_split <- function(state, ndim, names.only=FALSE){
 
 
 
-#' project back onto the manifold  where rain>0:
+#' Project back onto the manifold where rain>0:
 #'
 #' @param xa matrix of analysis ensemble to project
 #' @param xb matrix of background ensemble (currently not used)
@@ -226,9 +244,11 @@ sweq_proj <- function(xa, xb, model.run, ndim=model.run$ndim){
 }
 
 
-
-#' Partition the observations for the block-LEnKPF
-#' taking into account the sweq geometry
+#' SWEQ partition for the block-LEnKPF
+#' 
+#' @description 
+#' Partition the observations in blocks for assimilation with block-LEnKPF.
+#' Takes into account the sweq geometry
 #' We assume that R is diagonal and don't take it into account
 #'
 #' @param H the observation operator
@@ -297,16 +317,24 @@ sweq_partition <- function(H, taper, block.size){
 
 
 
-
+#' Additive model error
+#' @description 
+#' Experimental function for additive model error. 
+#' The values of pm_* should be chosen
+#' as std of noise to add for each variables at a frequency of 360.
+#' 
+#' @param rho inflation factor to change the std of additive noise
+#' @param xa analysis ensemble
+#' @param xb background ensemble
+#' @param model.run as returned from cycling experiment
+#' @return xa inflated
 additive_error <- function(rho, xa, xb, model.run){
-
-
-
   ## values chosen for freq=360:
-  # pm_r <- 0.0005; pm_h <- 0.05; pm_u <- 0.00025
-  pm_r <- 0.00075; pm_h <- 0.0075; pm_u <- 0.00075
-  pm_r <- 0.0025; pm_h <- 0.025; pm_u <- 0.0025
+  # pm_r <- 0.00075; pm_h <- 0.0075; pm_u <- 0.00075
+  # pm_r <- 0.0025; pm_h <- 0.025; pm_u <- 0.0025
   pm_r <- 0.0025; pm_h <- 0.05; pm_u <- 0.0025
+  
+  pm_r <- rho*pm_r; pm_h <- pm_h*rho; pm_u <- pm_u *rho
 
   ## adapt to other frequencies:
   freqfac <- model.run$freq/360
@@ -334,7 +362,6 @@ additive_error <- function(rho, xa, xb, model.run){
   # p <- nrow(xa)
   # xa <- ens0 + Pb2 %*% matrix(rnorm(p*k),p,k)
 
-  # browser()
   return(xa)
 }
 
@@ -343,6 +370,9 @@ additive_error <- function(rho, xa, xb, model.run){
 
 # Gaspari Cohn covariance tools -------------------------------------------
 
+#' GC covariance function
+#' 
+#' @description 
 #' correlation function from Gaspari & Coh 1999, eq. 4.10
 #' used in GC_taper
 #'
@@ -369,6 +399,9 @@ GC_function <- function(z, c){
 
 
 
+#' GC taper on ring
+#' 
+#' @description 
 #' Compute the GC taper on a ring, with support half-length c
 #'
 #' @param ndim number of dimensions in physical space
@@ -385,7 +418,9 @@ ring_GC <- function(ndim, c){
 
 
 
-
+#' GC taper on SWEQ
+#' 
+#' @description 
 #' Compute the GC taper on the sweq geometry for h,u and r, with support half-length c
 #' Cross correlations between fields can be defined (and should be non-zero)
 #'

@@ -2,8 +2,7 @@
 % Please edit documentation in R/utils_geom.R
 \name{ring_mod}
 \alias{ring_mod}
-\title{Special modulo for indices on ring ( a mod b)
-with special treatment for a==0}
+\title{Ring modulo}
 \usage{
 ring_mod(a, b)
 }

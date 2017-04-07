@@ -158,6 +158,7 @@ bal.sample <- function(w, R=length(w), unif=runif(1)){
 
 
 #' Select gamma adaptively
+#' 
 #' @description 
 #' Binary search such that e.0 <= ess <= e.1
 #'

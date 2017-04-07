@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_geom.R
 \name{sweq_proj}
 \alias{sweq_proj}
-\title{project back onto the manifold  where rain>0:}
+\title{Project back onto the manifold where rain>0:}
 \usage{
 sweq_proj(xa, xb, model.run, ndim = model.run$ndim)
 }
@@ -19,5 +19,5 @@ sweq_proj(xa, xb, model.run, ndim = model.run$ndim)
 xa with rain set to zero
 }
 \description{
-project back onto the manifold  where rain>0:
+Project back onto the manifold where rain>0:
 }

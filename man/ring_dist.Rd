@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_geom.R
 \name{ring_dist}
 \alias{ring_dist}
-\title{Compute minimal distances (discrete) on a ring}
+\title{Distance on ring}
 \usage{
 ring_dist(i, j, N)
 }

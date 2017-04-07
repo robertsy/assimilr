@@ -2,9 +2,7 @@
 % Please edit documentation in R/utils_geom.R
 \name{ring_partition}
 \alias{ring_partition}
-\title{Partition the observations for the block-LEnKPF
-taking into account the ring geometry
-We assume that R is diagonal and don't take it into account}
+\title{Ring partition for the block-LEnKPF}
 \usage{
 ring_partition(H, taper, block.size)
 }
@@ -16,8 +14,8 @@ ring_partition(H, taper, block.size)
 \item{block.size}{chunk size in domain space to take into account for one block}
 }
 \description{
-Partition the observations for the block-LEnKPF
-taking into account the ring geometry
+Partition the observations in blocks for assimilation with block-LEnKPF.
+Takes into account the ring geometry.
 We assume that R is diagonal and don't take it into account
 }
 \examples{

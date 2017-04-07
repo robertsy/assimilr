@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_geom.R
 \name{ring_GC}
 \alias{ring_GC}
-\title{Compute the GC taper on a ring, with support half-length c}
+\title{GC taper on ring}
 \usage{
 ring_GC(ndim, c)
 }

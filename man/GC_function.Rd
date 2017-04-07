@@ -2,8 +2,7 @@
 % Please edit documentation in R/utils_geom.R
 \name{GC_function}
 \alias{GC_function}
-\title{correlation function from Gaspari & Coh 1999, eq. 4.10
-used in GC_taper}
+\title{GC covariance function}
 \usage{
 GC_function(z, c)
 }

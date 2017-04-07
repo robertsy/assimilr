@@ -2,8 +2,7 @@
 % Please edit documentation in R/utils_plotting.R
 \name{image_mat}
 \alias{image_mat}
-\title{plot a squared matrix as a heatmap
-take care of putting things in the right direction and add a legend}
+\title{Plot covariance}
 \usage{
 image_mat(A, xlab = "columns", ylab = "rows", plotlegend = TRUE, ...)
 }

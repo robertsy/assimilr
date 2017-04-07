@@ -2,8 +2,7 @@
 % Please edit documentation in R/utils_geom.R
 \name{sweq_stack}
 \alias{sweq_stack}
-\title{Split a state vector into the h,u and r components
-Basically the oposite of sweq_split.}
+\title{SWEQ stack state}
 \usage{
 sweq_stack(h, u, r)
 }
@@ -14,7 +13,7 @@ sweq_stack(h, u, r)
 state vector or matrix
 }
 \description{
-Split a state vector into the h,u and r components
+Stack a state vector from the h,u and r components.
 Basically the oposite of sweq_split.
 }
 \examples{

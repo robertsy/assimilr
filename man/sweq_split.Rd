@@ -2,8 +2,7 @@
 % Please edit documentation in R/utils_geom.R
 \name{sweq_split}
 \alias{sweq_split}
-\title{Split a state vector into the h,u and r components
-Basically the opposite of sweq_stack}
+\title{SWEQ split state}
 \usage{
 sweq_split(state, ndim, names.only = FALSE)
 }
@@ -18,7 +17,7 @@ sweq_split(state, ndim, names.only = FALSE)
 a list with components h, u and r, each of size ndim
 }
 \description{
-Split a state vector into the h,u and r components
+Split a state vector into the h,u and r components.
 Basically the opposite of sweq_stack
 }
 \examples{

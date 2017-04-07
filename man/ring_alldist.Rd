@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_geom.R
 \name{ring_alldist}
 \alias{ring_alldist}
-\title{Compute all pairwise distances on a rings}
+\title{Pairwise distances on a rings}
 \usage{
 ring_alldist(N)
 }
@@ -13,7 +13,7 @@ ring_alldist(N)
 the matrix of pairwise distances on a ring of size N.
 }
 \description{
-Compute all pairwise distances on a rings
+Pairwise distances on a rings
 }
 \examples{
 A <- ring_alldist(9)
