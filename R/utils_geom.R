@@ -17,7 +17,7 @@ ring_mod <- function(a,b){
 }
 
 
-#' Compute minimal distances (discrete) on a ring...
+#' Compute minimal distances (discrete) on a ring
 #'
 #' @param i from
 #' @param j to
@@ -146,7 +146,6 @@ ring_partition <- function(H, taper, block.size){
 #' @param l the number of neighbours in each direction
 #' @return a list with x.ind the indices of the neighbours and center the position i for h, u and r (in the vector state)
 #' local.center are the indices of the centers in the local space (x.local) to apply the update
-#' @export
 #' @examples
 #' sweq_neighbours(5, 2, 10)
 sweq_neighbours <- function(i, l, ndim){
@@ -183,7 +182,7 @@ sweq_stack <- function(h, u, r){
 #' Basically the opposite of sweq_stack
 #'
 #' @param state Vector (3ndim) or matrix (3ndim x N) if ensemble
-#' @param ndim
+#' @param ndim number of dimensions in physical space
 #' @param names.only T/F create factors (useful in  sweq_plot)
 #' @return a list with components h, u and r, each of size ndim
 #' @examples
@@ -372,7 +371,7 @@ GC_function <- function(z, c){
 
 #' Compute the GC taper on a ring, with support half-length c
 #'
-#' @param ndim
+#' @param ndim number of dimensions in physical space
 #' @param c the support half-length
 #' @return taper matrix
 #' @examples

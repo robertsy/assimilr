@@ -29,12 +29,10 @@ sweq_run <- sweq_simulate(duration, freq, ndim,
                           thres.rain=train)
 
 
-
 g_sweq <- sweq_ggplot(sweq_run$state.ts[duration/freq,],
                       obs=sweq_run$y.ts[[duration/freq]],
                       norain=T)
 g_sweq
-
 
 
 
@@ -153,7 +151,7 @@ diagnostic_df %>% plot_eval(field_ind = 3)
 
 ## Calibration (need more replicate, but to have a look):
 pit_df <- pit_sweq(sweq_run, block_run, fig=FALSE, train=train)
-pit_df %>% pit_sweq_plot()
+pit_df %>% pit_sweq_plot(k)
 
 
 

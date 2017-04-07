@@ -1,11 +1,15 @@
 
 
 #' Global EnKPF
+#' 
+#' @description 
+#' Special cases: 
 #' setting gam.fix=1: EnKF
 #' setting gam.fix=0: PF
-#' otherwise gamma is chosen adaptively (then pass e.0 and e.1 as arguments)
-#' see also utils_enkpf for the exact procedure.
 #' setting gam.fix=1 and kloc=TRUE recovers the LEnKF
+#' 
+#' Otherwise gamma is chosen adaptively (then pass e.0 and e.1 as arguments)
+#' see also utils_enkpf for the exact procedure.
 #'
 #' @param xb the background ensemble
 #' @param y the observations

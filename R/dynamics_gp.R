@@ -1,13 +1,20 @@
 ## Generate Gaussian random field with spatial correlation
 ## GP stands for Gaussian processes.
 
-
-#' Simulate a correlated Gaussian random field. The covariance function is the GC with half length determined by l
+#' Simulate a correlated Gaussian random field
+#' 
+#' @description 
+#' Simulate a correlated Gaussian random field. The covariance function is the GC (Gaspari-Cohn) with half length determined by l
 #' Observations are made at every location with independent errors and variance Rsig2
+#' 
 #' @param q dimension
 #' @param l half correlation length for the covariance matrix
 #' @param Rsig2 variance of the observation
 #' @return list with x the field, y the observations and various informations about the processes used for assimilation
+#' @examples 
+#' gp_data <- gp_simulate(q=100)
+#' xb <- gp_ens0(20, gp_data)
+#' gp_plot(gp_data, xb,  'Background')
 gp_simulate <- function(q=100,
                         l=5,
                         Rsig2=1){
@@ -42,10 +49,16 @@ gp_simulate <- function(q=100,
 
 
 
-
-#' Generate an ensemble of Gaussian random field with same mean and covariance
+#' Generate initial ensemble
+#' 
+#' @description 
+#' Independent draws from the Gaussian model specified.
 #' @param k ensemble size
 #' @param gp_data a list returned by gp_simulate
+#' @examples 
+#' gp_data <- gp_simulate(q=100)
+#' xb <- gp_ens0(20, gp_data)
+#' gp_plot(gp_data, xb,  'Background')
 gp_ens0 <- function(k, gp_data){
   q <- gp_data$q
   xb <- gp_data$mub + gp_data$covb_sqrt %*% matrix( rnorm(q*k), q, k)
@@ -55,8 +68,14 @@ gp_ens0 <- function(k, gp_data){
 
 
 
-#' Transform the a Gaussian random field matrix into a data frame
+#' Transform the state matrix into a data frame
+#' 
 #' @param state can be both a vector (one sample) or an ensemble qxk
+#' @examples 
+#' gp_data <- gp_simulate(q=100)
+#' xb <- gp_ens0(20, gp_data)
+#' (xb_df <- gp_as_df(xb))
+#' (xtrue_df <- gp_as_df(gp_data$x))
 gp_as_df <- function(state, method=NULL){
   ## ensemble or state?
   is_ens <- is.matrix(state)
@@ -88,8 +107,12 @@ gp_as_df <- function(state, method=NULL){
 
 #' Plot the true field, the observations and an ensemble
 #' @param gp_data a list returned by gp_simulate
-#' @param gp_ens a ensemble matrix qxk
+#' @param gp_ens an ensemble matrix qxk
 #' @param tit optional plot title
+#' @examples 
+#' gp_data <- gp_simulate(q=100)
+#' xb <- gp_ens0(20, gp_data)
+#' gp_plot(gp_data, xb,  'Background') 
 gp_plot <- function(gp_data, gp_ens, tit=''){
   ## data manipulation and plots:
   xb_df <- gp_as_df(gp_ens)

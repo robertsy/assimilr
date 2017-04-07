@@ -1,8 +1,11 @@
 
 
 #' naive LEnKPF analysis
-#' apply an independent EnKPF analysis at each location using only neighboring information.
-#'
+#' 
+#' @description 
+#' Apply an independent EnKPF analysis at each location using only neighboring information.
+#' 
+#' Special cases:
 #' setting gam.fix=1: LEnKF
 #' setting gam.fix=0: LPF
 #' @inheritParams EnKPF

@@ -1,15 +1,17 @@
 
 #' block-LEnKPF analysis
-#' assimilate observations sequentially in blocks
-#' smooth discontinuities by conditional resampling using the empirical covariance structure
-#' The method does not work without a taper for P
-#' the specific update of one block is in one_block_update
+#' 
+#' @description 
+#' Assimilate observations sequentially in blocks. 
+#' Smooth discontinuities by conditional resampling using the empirical covariance structure.
+#' The method does not work without a taper for P. 
+#' The specific update of one block is in one_block_update
 #' REM: for historical reasons the indices  referred to as u and v in the paper are named in the code as x and v.
 #'
 #' @inheritParams EnKPF
 #' @param l the localization radius (not used directly)
 #' @param block_size size of domain considered to include observations in a block
-#' @param get_partition the function to partition the observations in blocks, depending on geometry (typically ring_partition or sweq_partition)
+#' @param get_partition function to partition the observations in blocks, depending on geometry (typically ring_partition or sweq_partition)
 block_LEnKPF  <- function(xb, y, H, R,l,
                           block_size=l/2,                     ## how many grid points to take observations from in one block
                           get_partition=ring_partition,       ## geometry information
@@ -73,9 +75,11 @@ block_LEnKPF  <- function(xb, y, H, R,l,
 
 
 
-#' block-LEnKPF analysis
-#' assimilation of one block of observations
-#' gamma is chosen adaptively if not specified through gam.fix with adaptive gamma.
+#' assimilation of one block with block-LEnKPF
+#' 
+#' @description 
+#' Assimilation of one block of observations. 
+#' Gamma is chosen adaptively if not specified through gam.fix with adaptive gamma.
 #'
 #' @inheritParams EnKPF
 #' @param ind are the indices of used for the current block, containing x.ind, v.ind and y.ind

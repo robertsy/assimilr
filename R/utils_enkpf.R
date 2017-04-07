@@ -1,19 +1,21 @@
 ## various utility functions related to EnKPFs
 
 
-
+#' EnKF part of EnKPF
+#' 
+#' @description 
 #' Compute the non-random elements of the EnKPF update
 #' typically used for choosing gamma adaptively
 #'
 #' @param y the observations
 #' @param xb the background ensemble
-#' @param gam
+#' @param gam gamma parameter
 #' @param P background covariance matrix
 #' @param H observation operator
 #' @param R observation covariance
 #' @param y.resx = y - Hxb the innovations
-#' @param kloc=T used the localized Kalman gain
-#' @param ... additional arguments used in case kloc=T
+#' @param kloc if TRUE use the localized Kalman gain formulation
+#' @param ... additional arguments used in case kloc=TRUE (see kloc_gain)
 #' @return a list with Kalman gains, weights and other quantities of interest
 enkf_step <- function (y, xb, gam, P, H, R, y.resx, kloc=FALSE, ...) {
   K <- ncol(xb)
@@ -57,6 +59,8 @@ enkf_step <- function (y, xb, gam, P, H, R, y.resx, kloc=FALSE, ...) {
 
 
 #' Compute the Kalman Gain
+#' 
+#' @description 
 #' Uses the cholesky decomposition of (HPH' + R)
 #'
 #' @param P the covariance matrix
@@ -70,9 +74,13 @@ kalman.gain <- function(P, H, R){
 }
 
 
-#' project covariance P on closed positive-definite matrix
-#' used in enkf_step to ensure that Q is pd, which happens to not be the case
-#' in a few pathological cases
+#' To ensure positive definiteness
+#' 
+#' @description 
+#' Only used in pathological cases.
+#' Project covariance P on closed positive-definite matrix.
+#' Used in enkf_step to ensure that Q is pd, which happens to not be the case
+#' in a few pathological cases.
 ensure_PD <- function(P){
   ## ensure positive-definiteness:
   P <- Matrix::nearPD(P)
@@ -81,7 +89,9 @@ ensure_PD <- function(P){
 }
 
 
-#' computes a symmetric matrix square root of a positive definite matrix
+#' Symmetric matrix square root of a positive definite matrix
+#' 
+#' @description 
 #' use eigenvalue decompostion
 #'
 #' @param A a symmetric matrix
@@ -93,9 +103,12 @@ msqrt <- function(A){
   return(V %*% diag(sqrt(e$values)) %*% t(V))
 }
 
-#' Purpose: Balanced sampling
-#' Multiplicities N_1, ..., N_n, i.e. element j is sampled N_j times
+#' Balanced sampling
+#' 
+#' @description 
+#' Multiplicities N_1, ..., N_n, i.e. element j is sampled N_j times. 
 #' index = numbers of sampled elements
+#' 
 #' Author: Hans-Rudolf Kuensch, Date: 21 Apr 2010.
 #' Modified by Sylvain Robert (added unif as argument and some names)
 #'
@@ -114,7 +127,10 @@ bal.sample <- function(w, R=length(w), unif=runif(1)){
 
 
 
+
+
 #' Select gamma adaptively
+#' @description 
 #' Binary search such that e.0 <= ess <= e.1
 #'
 #' @param e.0 ESS lower bound
@@ -161,7 +177,10 @@ adaptive_gamma <- function(e.0=0.5, e.1=0.8, imax=15, imin=1, delta.gam=1/(imax-
 
 
 
-
+#' Perumute indices 
+#' 
+#' @description 
+#' Used to match particles between local updates.
 #' Rearrange indices on the right to match as many as
 #' possible on the left... Default for left should be 1:length(rightind)
 #' @param leftind: indices on the left (reference)
@@ -195,7 +214,9 @@ leftmatch <- function(leftind, rightind){
 
 
 
-#' equivalent local Kalman gain
+#' Equivalent local Kalman gain
+#' 
+#' @description 
 #' compute a Kalman gain locally at each location and construct a global
 #' Kalman gain with the appropriate values and zeroes
 #' @param P the covariance matrix

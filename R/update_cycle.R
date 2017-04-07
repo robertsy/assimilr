@@ -3,8 +3,8 @@
 #' @param model.run the true model time series
 #' @param f.update the analysis function
 #' @param rho the covariance inflation parameter
-#' @param nonoise=T doesn't inject noise in forecast step (bad idea)
-#' @param verbose=T for minimal print info
+#' @param nonoise if TRUE doesn't inject noise in forecast step (bad idea)
+#' @param verbose if TRUE minimal print info
 #' @param manifold_proj is to project the ensemble on a manifold after analysis, typicall sweq_proj
 #' @param cov_inflation for creating customized inflation function. The default is just multiplicative inflation
 #' @param ... extra argument for f.update
@@ -66,9 +66,11 @@ da_cycle <- function(xb, model.run, f.update, rho=1.00, nonoise=FALSE, verbose=T
 
 
 
-
-#' wrapper function to call the individual algorithms by a name
-#' useful for simulations.
+#' Wrapper function for assimilation algorithms
+#' 
+#' @description 
+#' Wrapper function to call the individual algorithms by a name.
+#' Useful for simulations.
 #' @param method is the name of the algorithm to use
 #' @inheritParams EnKPF
 #' @inheritParams block_LEnKPF

@@ -10,7 +10,13 @@
 
 # main functions: ---------------------------------------------------------
 
-#' Simulate a time series of states and observations from the modified sweq model
+#' Simulate from the modified SWEQ model
+#' 
+#' @description 
+#' Simulate a time series of states and observations at a given frequency from the modified SWEQ
+#' model. The parameters and options follow the original implementation of the author
+#' in Python. Here the model is implemented in fortran90 for better performance.
+#' 
 #' @param duration the total integration time
 #' @param freq the frequency at which the process is recorded and observed
 #' @param ndim dimension of the 1-dim domain
@@ -21,17 +27,15 @@
 #' @param kh,ku,kr diffusion parameters
 #' @param noisefreq=1 probability of random plume at each integration cycle
 #' @param thres.rain threshold over which rain is observed
-#' @param sigr, sigu standard deviation of r and u observations
+#' @param sigr,sigu standard deviation of r and u observations
 #' @param alpha, beta model parameters
 #' @param norain: should no-rain observations be created
 #' @param R.sigr, R.sigu are used to create the R matrix (not necessarily equal to sigr and sigu)
 #' @param seed random seed (pass as NA if set externally)
-#' @param hc, hr critical heights for clouds and rain formation
+#' @param hc,hr critical heights for clouds and rain formation
 #' @param state0 possible initial state at time 0
 #' @return a list with everything needed for assimilation and plotting
-#' @export
 #' @examples
-#' myseed <- 1
 #' ndim <- 300
 #' freq <- 60
 #' duration <- 12*freq
@@ -43,7 +47,7 @@
 #' R.sigu <- sigu
 #' R.sigr <- 0.025
 #' norain <- TRUE ## TRUE=assimilate norain observations
-#' set.seed(myseed)
+#' set.seed(1)
 #' sweq_run <- sweq_simulate(duration, freq, ndim,
 #'                           alpha=alpha, beta=beta,
 #'                           noisefreq = 1, umean = 0,
@@ -52,7 +56,8 @@
 #'                           R.sigr=R.sigr, R.sigu=R.sigu,
 #'                           norain=norain,
 #'                           thres.rain=train)
-sweq_simulate <- function(duration, freq, ndim, umean=0, unoise=F, topo=1,
+#' sweq_ggplot(sweq_run$state.ts[1,], obs=sweq_run$y.ts[[1]])
+sweq_simulate <- function(duration, freq, ndim, umean=0, unoise=FALSE, topo=1,
                           noiseswitch=1, kh=25000, ku=kh, kr=200, noisefreq=1,
                           thres.rain=0.005, sigr=0.0025, sigu=0.01,
                           alpha=1/4000, beta=3,
@@ -124,15 +129,15 @@ sweq_simulate <- function(duration, freq, ndim, umean=0, unoise=F, topo=1,
 #' @param K Ensemble size
 #' @param sweq.run model run list returned by sweq_simulate
 #' @param klag number of integration steps between two members. Increase for more independence (but slower).
+#' @param umean Initial wind field
 #' @return ens0
-#' @export
 #' @examples
 #' ndim <- 168
 #' freq <- 60
 #' duration <- 1*freq
 #' sweq.run <- sweq_simulate(duration, freq, ndim)
 #' ens0 <- sweq_ens0(K=40, sweq.run)
-#' sweq_plot(sweq.run$state.ts[1,], ens0)
+#' sweq_ggplot(sweq.run$state.ts[1,], ens0)
 sweq_ens0 <- function(K, sweq.run, klag=1000, umean=0, ...){
   # klag time steps between ensembles (increase to have more independence)
   ens1 <- .sweq_init(sweq.run$ndim, umean=umean, unoise=T, state=T, kens=1, elev=sweq.run$elev)
@@ -162,7 +167,7 @@ sweq_ens0 <- function(K, sweq.run, klag=1000, umean=0, ...){
 #' @param noiseswitch=1 to add random plumes
 #' @param elev possible topography
 #' @param noisefreq probability of random plume in each integration step
-#' @param kh, ku, kr diffusion parameters
+#' @param kh,ku,kr diffusion parameters
 #' @param alpha, beta model parameters
 #' @param hc, hr critical height for cloud and rain formation
 #' @return The state after integration.
@@ -171,7 +176,7 @@ sweq_ens0 <- function(K, sweq.run, klag=1000, umean=0, ...){
 #' ndim <- 168
 #' state0 <- .sweq_init(ndim, umean=0, unoise=F, topo=1)
 #' state1 <- .sweq_integrate(state0$state, elev=state0$elev, noiseswitch=1, nsteps = 1000)
-#' sweq_plot(state1)
+#' sweq_ggplot(state1)
 .sweq_integrate <- function(state,  nsteps=1, noiseswitch=0, elev=rep(0, ndim),
                             ndim=length(state)/3, noisefreq=1,
                             kh=25000, ku=25000, kr=200, alpha=1/4000, beta=3,
@@ -235,6 +240,8 @@ sweq_ens0 <- function(K, sweq.run, klag=1000, umean=0, ...){
 
 
 #' Integrate the state in time and save the time series
+#' 
+#' @description 
 #' DOES NOT work with ensemble!
 #'
 #' @inheritParams .sweq_integrate
@@ -246,7 +253,7 @@ sweq_ens0 <- function(K, sweq.run, klag=1000, umean=0, ...){
 #' duration <- 20*freq
 #' state0 <- .sweq_init(ndim, umean=0, unoise=F, topo=1)
 #' state1 <- .sweq_ts(state0$state, duration=duration, freq=freq, noiseswitch=1)
-#' sweq_plot(state1[duration/freq+1,])
+#' sweq_ggplot(state1[duration/freq+1,])
 .sweq_ts <- function(state, duration, freq, elev=rep(0, length(state)/3), ...){
   state.ts <- matrix(NA, nrow=ceiling(duration/freq)+1, ncol=length(state))
   state.ts[1,] <- state
@@ -276,7 +283,7 @@ sweq_ens0 <- function(K, sweq.run, klag=1000, umean=0, ...){
 #' K <- 10
 #' ens0 <- .sweq_init(ndim, umean=0, unoise=T, kens=K, elev=sweq.run$elev)
 #' ens0  <- .sweq_integrate(ens0, elev=rep(0, ndim), nsteps=3000, noiseswitch=1)
-#' sweq_plot(ens0[,1])
+#' sweq_ggplot(ens0[,1])
 .sweq_init <- function(ndim, umean=0, unoise=TRUE, topo=1, state=FALSE, kens=1,
                        elev=rep(0,ndim), h0=90){
 
@@ -407,7 +414,9 @@ sweq_ens0 <- function(K, sweq.run, klag=1000, umean=0, ...){
 #' Generate an observation of state with the defined parameters
 #'
 #' @param rain a vector of rain
+#' @param sigr parameter used to generate y
 #' @param tol the threshold under which rain is not observed
+#' @param rgauss if TRUE, then truncated Gaussian obs instead of special distribution as in paper
 #' @return a vector of observations, with 0 if rain < tol and an error process otherwise
 .sweq_rainobs <- function(rain, sigr, tol=10^-4, rgauss=FALSE){
   ## contains:
@@ -435,7 +444,9 @@ sweq_ens0 <- function(K, sweq.run, klag=1000, umean=0, ...){
 }
 
 
-
+#' Change R matrix
+#' 
+#' @description 
 #' take y, an observation object, and change its R matrix
 #' (useful if needs to be changed a posteriori)
 #' @inheritParams sweq_simulate
@@ -449,7 +460,10 @@ sweq_change_R <- function(y, R.sigr, R.sigu, ndim){
 
 
 
-#' Create H matrix: dx 3ndim [ Hu' Hr' ]'
+#' Create H matrix
+#'
+#' @description  
+#' H has size: d x 3ndim and is structured as [ Hu' Hr' ]', for the u and r components
 #'
 #' @inheritParams sweq_simulate
 #' @param u.ind locations where the wind is observed
@@ -474,11 +488,13 @@ sweq_change_R <- function(y, R.sigr, R.sigu, ndim){
 
 
 
-
+#' Get R from bigR
+#' 
+#' @description 
 #' Extract the part of bigR only where wind is actually observed
 #' rain is observed everywhere
 #'
-#' @param H
+#' @param H observation operator
 #' @param u.ind locations where the wind is observed
 #' @param r.ind locations where the rain is observed (usually everywhere)
 #' @return the R matrix
@@ -495,7 +511,9 @@ sweq_change_R <- function(y, R.sigr, R.sigu, ndim){
 
 
 
-
+#' Create bigR
+#' 
+#' @description 
 #' create the observation error covariance R
 #' assuming that wind is observed at every location
 #'
@@ -518,7 +536,9 @@ sweq_change_R <- function(y, R.sigr, R.sigu, ndim){
 
 # utility functions -------------------------------------------------------
 
-
+#' from sweq_simulate to data_frame
+#' 
+#' @description 
 #' take a state object from a sweq_simulate list and return a nice data frame
 #' @param state as in sweq_simulate$state.ts
 #' @param field names to assign
@@ -527,7 +547,7 @@ sweq_change_R <- function(y, R.sigr, R.sigu, ndim){
 #' ens0 <- sweq_ens0(40, sweq.run)
 #' state_df <- sweq_as_df(sweq.run$state.ts[1,])
 #' ens_df <- sweq_as_df(ens0)
-#' test:
+#' #test:
 #' all.equal(ens0[,1],  filter(ens_df, ensemble=='ens_1')$value)
 sweq_as_df <- function(state, field_names=c('fluid height', 'rain content', 'wind')){
   ## ensemble or state?
@@ -558,11 +578,13 @@ sweq_as_df <- function(state, field_names=c('fluid height', 'rain content', 'win
 }
 
 
-
+#' From sweq_run to data_frame
+#' 
+#' @description 
 #' same as sweq_as_df but applied to a cycled assimilation model run
 #' as returned by da_cycle
 #' @param model_run returned by da_cycle
-#' @param duration, freq information from the run
+#' @param duration,freq information from the run
 #' @param sweq_run true run, if passed then added with method name=state
 sweq_run_as_df <- function(model_run, duration, freq, sweq_run=NULL){
   time_vec <- seq(0,duration, by=freq)
@@ -604,6 +626,8 @@ sweq_run_as_df <- function(model_run, duration, freq, sweq_run=NULL){
 
 # plotting ----------------------------------------------------------------
 
+#' Plot SWEQ
+#' @description 
 #' plot the state, the ensemble and the observations all together
 #' @param the true state
 #' @param ens the ensemble matrix
@@ -613,8 +637,9 @@ sweq_run_as_df <- function(model_run, duration, freq, sweq_run=NULL){
 #' @param params as from sweq_simulate$params
 #' @param tit optional title
 #' @param norain=T means that we plot the no-rain observations
-#' @param ._ylim for enforcing plotting limits
+#' @param *_ylim for enforcing plotting limits
 #' @param field_names for plotting
+#' @param psize size of observations
 sweq_ggplot <- function(state, ens=NULL, obs, h_lim=c(90.02, 90.3),
                         selected_field=c(1,2,3),
                         params=NULL,
