@@ -13,6 +13,6 @@ here implemented in fortran90 for better performance.
 
 ## Instructions
 
-To install the package use devtools::install_github("robertsy/assimilr"). The folder example provides some basic usage of the main functions, 
+To install the package use devtools::install_github("robertsy/assimilr") or simply clone the repo and install the package locally. The folder example provides some basic usage of the main functions, 
 once for a one-step assimilation in a one-dimensional Gaussian random field and then for more complicated cases with the modified
 SWEQ model. 
