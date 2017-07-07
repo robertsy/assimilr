@@ -9,7 +9,7 @@
 #' @param cov_inflation for creating customized inflation function. The default is just multiplicative inflation
 #' @param ... extra argument for f.update
 #' @return a list with the xa time series, and other informations returned by f.update
-da_cycle <- function(xb, model.run, f.update, rho=1.00, nonoise=FALSE, verbose=TRUE,
+da_cycle <- function(xb, model.run, f.update, rho=1.00, nonoise=FALSE, verbose=FALSE,
                      manifold_proj=NULL, cov_inflation=NULL,
                      ...## extra arguments passed to f.update
 ){
